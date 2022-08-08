@@ -1,0 +1,1 @@
+This repo is for an application that collects location data through a flask API. Another script sends all the unique location data collected to a different weather API every hour. The response data are stored in an SQLite database.
