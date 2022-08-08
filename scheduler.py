@@ -1,6 +1,6 @@
 from apscheduler.schedulers.background import BackgroundScheduler
-## db stuff
-from models import Base, sess, engine, Users, Locations, Weather
+
+from models import sess, Locations, Weather
 from sqlalchemy import inspect
 import json
 import requests
@@ -14,8 +14,8 @@ with open(r'C:\Users\captian2020\Documents\config_files\config_weatherPlatform02
 def scheduler_funct():
     print('@In scheduler funct')
     scheduler = BackgroundScheduler()
-    # job_call_weather = scheduler.add_job(call_weather, 'cron', hour = '*', minute = '*', second='*/15')
-    job_call_weather_hourly = scheduler.add_job(call_weather, 'cron', hour = '*')
+    job_call_weather = scheduler.add_job(call_weather, 'cron', hour = '*', minute = '*', second='*/15')
+    # job_call_weather_hourly = scheduler.add_job(call_weather, 'cron', hour = '*')
     scheduler.start()
 
     while True:
@@ -131,10 +131,6 @@ def call_weather():
 
 
 if __name__ == '__main__':
-    if 'users' in inspect(engine).get_table_names():
-        print('db already exists')
-    else:
-        Base.metadata.create_all(engine)
-        print('NEW db created.')
+
     
     scheduler_funct()

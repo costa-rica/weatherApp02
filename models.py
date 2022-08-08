@@ -101,3 +101,11 @@ class Weather(Base):
     def __repr__(self):
         return f"Weather(id: {self.id}, " \
             f"city_location_name: {self.city_location_name}, temp_c: {self.temp_c})"
+
+
+#Build db
+if 'users' in inspect(engine).get_table_names():
+    print('db already exists')
+else:
+    Base.metadata.create_all(engine)
+    print('NEW db created.')

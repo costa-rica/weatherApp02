@@ -1,11 +1,6 @@
-from flask import Flask, jsonify, request
-# from apscheduler.schedulers.background import BackgroundScheduler
-# import time
-# import os
+from flask import Flask, request
 import json
-# from datetime import datetime
-
-from models import Base, sess, engine, Users, Locations, Weather
+from models import sess, Users, Locations
 
 app = Flask(__name__)
 
