@@ -23,7 +23,7 @@ def scheduler_funct():
 
 
 def call_weather():
-    print(f'@Calling weather {datetime.now}')
+    print(f'@Calling weather {datetime.now()}')
 
     locations = sess.query(Locations).all()
     print('$$ made locations list object')
