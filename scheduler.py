@@ -26,8 +26,6 @@ def call_weather():
     print(f'@Calling weather {datetime.now()}')
 
     locations = sess.query(Locations).all()
-    print('$$ made locations list object')
-    #make weather api call
     base_url = 'http://api.weatherapi.com/v1'
     current = '/current.json'
     astronomy = '/astronomy.json'
@@ -77,14 +75,12 @@ def call_weather():
             load_dict['gust_mph'] = c.get('gust_mph')
             load_dict['gust_kph'] = c.get('gust_kph')
             if c.get('condition'):
-                print(' -- Are we in Condition ---')
                 cond = c.get('condition')
                 load_dict['condition_text'] = cond.get('text')
                 load_dict['condition_icon'] = cond.get('icon')
                 load_dict['condition_code'] = cond.get('code')
 
             if c.get('air_quality'):
-                print('** do we get air_quality? ***')
                 aq = c.get('air_quality')
                 load_dict['co'] = aq.get('co')
                 load_dict['o3'] = aq.get('o3')
@@ -111,26 +107,17 @@ def call_weather():
                 load_dict['moon_phase'] = a_2.get('moon_phase')        
                 load_dict['moon_illumination'] = a_2.get('moon_illumination')       
 
-    # Get Alerts
-        #Alerts contains at dict with "alert":[list of alerts with all the same keys over and over again]
-
         add_weather = Weather(**load_dict)
         sess.add(add_weather)
         sess.commit()
 
-        #populate location name
-        # location = sess.query(Locations).get(location_id)
-        print('$$ This is the location we are looking at now:::')
-        print(location.id)
+    # populate location name in Location table
         if location.city == None or location.city == '':
             location.city = w.get('name')
             location.region = w.get('region')
             location.country = w.get('country')
             sess.commit()
-        
 
 
-if __name__ == '__main__':
-
-    
+if __name__ == '__main__':  
     scheduler_funct()

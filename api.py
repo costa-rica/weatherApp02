@@ -39,10 +39,8 @@ def add_user():
 
     except:
         return f"Something is wrong with the data you tried to add to the database."
-        
 
-    # Check LocationsUnique for new user's coordinates
-    
+    # Check Locations table to see if user's location already exists
     locations_unique_list = sess.query(Locations).all()
     for loc in locations_unique_list:
         lat_diff = abs(float(request_data.get('lat')) - loc.lat)
@@ -53,16 +51,14 @@ def add_user():
             min_loc_distance_difference = loc_dist_diff
             location_id = loc.id
         
-    
     if min_loc_distance_difference < .1:
-        #map location id to user's location_id
         new_user = sess.query(Users).filter_by(username = request_data.get('username')).first()
         new_user.location_id = location_id
         sess.commit()
         return f"{request_data.get('username')} added succesfully!"
 
     else:
-        # add coordinates to unique location
+    # coordinates not found in Location and add coordinates as new location
         new_loc_dict = {}
         new_loc_dict['city'] = request_data.get('city')
         new_loc_dict['region'] = request_data.get('region')
@@ -81,10 +77,7 @@ def add_user():
         new_user.location_id = just_added_location.id
         sess.commit()
 
-
         return f"{request_data.get('username')} and new location added succesfully!"
-
-
 
 
 if __name__ == '__main__':

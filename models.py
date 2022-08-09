@@ -39,7 +39,6 @@ class Locations(Base):
     users = relationship('Users', backref = 'location', lazy = True)
     time_stamp_utc = Column(DateTime, nullable = False, default = datetime.utcnow)
 
-# class Weather(db.Model):
 class Weather(Base):
     __tablename__ = 'weather'
     id = Column(Integer, primary_key = True)
